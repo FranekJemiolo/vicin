@@ -1,0 +1,39 @@
+{
+  "name": "vicin-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vicin - Spontaneous neighborhood and group availability app",
+  "license": "MIT",
+  "author": "Franek Jemiolo <franek@jemiolo.pl>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FranekJemiolo/vicin.git"
+  },
+  "scripts": {
+    "build": "pnpm --recursive run build",
+    "build:shared": "pnpm --filter @vicin/shared run build",
+    "build:ui": "pnpm --filter @vicin/ui run build",
+    "build:web": "pnpm --filter @vicin/web run build",
+    "dev:web": "pnpm --filter @vicin/web run dev",
+    "dev:mobile": "pnpm --filter @vicin/mobile run start",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 10",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css,yaml,yml}\"",
+    "type-check": "pnpm --recursive run type-check",
+    "test": "pnpm --recursive run test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.23.13",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

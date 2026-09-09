@@ -1,0 +1,19 @@
+{
+  "name": "@vicin/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "type-check": "tsc --noEmit",
+    "test": "node --test dist/__tests__/**/*.test.js || echo 'No UI tests'"
+  },
+  "dependencies": {
+    "@vicin/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

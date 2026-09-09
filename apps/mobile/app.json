@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Vicin",
+    "slug": "vicin",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#090A0F"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.franekjemiolo.vicin",
+      "infoPlist": {
+        "NSSupportsLiveActivities": true
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#090A0F"
+      },
+      "package": "com.franekjemiolo.vicin"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "vicin",
+    "plugins": ["expo-notifications"]
+  }
+}

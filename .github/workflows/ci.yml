@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, Format, TypeCheck & Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile || pnpm install
+
+      - name: Check code formatting (Prettier)
+        run: pnpm run format:check
+
+      - name: Run ESLint
+        run: pnpm run lint
+
+      - name: Build shared packages
+        run: |
+          pnpm run build:shared
+          pnpm run build:ui
+
+      - name: TypeScript type check
+        run: pnpm run type-check
+
+      - name: Run unit & security tests
+        run: pnpm run test

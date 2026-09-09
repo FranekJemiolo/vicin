@@ -36,7 +36,7 @@ export const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({
             setUser(MOCK_USER);
             await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(MOCK_USER));
           }
-          setSession({ access_token: 'mock-token' });
+          setSession({ access_token: 'mock-token' } as Session);
         } else {
           const { data } = await supabase.auth.getSession();
           setSession(data.session);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
+import { NavigationContainer, LinkingOptions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../context/AuthContext';
@@ -76,6 +77,25 @@ const MainTabNavigator: React.FC = () => {
   );
 };
 
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: [Linking.createURL('/'), 'vicin://', 'https://vicin.app'],
+  config: {
+    screens: {
+      AcceptInviteModal: 'invite/:token',
+      CreateBroadcastModal: 'broadcast/new',
+      CreateGroupModal: 'groups/new',
+      GroupSettingsModal: 'groups/:groupId/settings',
+      MainTabs: {
+        screens: {
+          Feed: 'feed',
+          Groups: 'groups',
+          Profile: 'profile',
+        },
+      },
+    },
+  },
+};
+
 export const RootNavigator: React.FC = () => {
   const { user, loading } = useAuth();
 
@@ -88,7 +108,7 @@ export const RootNavigator: React.FC = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <RootStack.Navigator
         screenOptions={{
           headerShown: false,

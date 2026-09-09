@@ -1,0 +1,16 @@
+{
+  "name": "Vicin - Spontaneous Availability",
+  "short_name": "Vicin",
+  "description": "Frictionless availability broadcasting for trusted neighbors and closed-loop circles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090A0F",
+  "theme_color": "#10B981",
+  "icons": [
+    {
+      "src": "/assets/01_login_screen.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

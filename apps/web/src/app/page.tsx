@@ -50,6 +50,11 @@ export default function HomePage() {
     },
   ]);
 
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [waitlistNeighborhood, setWaitlistNeighborhood] = useState('');
+  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const [waitlistLoading, setWaitlistLoading] = useState(false);
+
   const handleCreateBroadcast = (e: React.FormEvent) => {
     e.preventDefault();
     const newBc: DemoBroadcast = {
@@ -66,6 +71,30 @@ export default function HomePage() {
     setBroadcasts([newBc, ...broadcasts]);
     setCustomNote('');
     setActiveTab('feed');
+  };
+
+  const handleJoinWaitlist = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail || !waitlistEmail.includes('@')) return;
+    setWaitlistLoading(true);
+
+    // Persist locally & simulate Supabase waitlist sync
+    try {
+      const stored = JSON.parse(localStorage.getItem('vicin_waitlist') || '[]');
+      stored.push({
+        email: waitlistEmail,
+        neighborhood: waitlistNeighborhood || 'Unspecified',
+        timestamp: new Date().toISOString(),
+      });
+      localStorage.setItem('vicin_waitlist', JSON.stringify(stored));
+    } catch {
+      // safe fallback in SSR or restricted environments
+    }
+
+    setTimeout(() => {
+      setWaitlistLoading(false);
+      setWaitlistSubmitted(true);
+    }, 600);
   };
 
   const handleToggleAck = (id: string) => {
@@ -402,24 +431,39 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                src: '/screenshots/01_login_screen.svg',
+                src: '/assets/01_login_screen.svg',
                 title: 'Seamless Auth',
                 desc: 'Minimalist sign-in with SSO',
               },
               {
-                src: '/screenshots/02_active_feed.svg',
+                src: '/assets/02_active_feed.svg',
                 title: 'Active Feed',
                 desc: 'Realtime availability pulse',
               },
               {
-                src: '/screenshots/03_create_broadcast.svg',
+                src: '/assets/03_create_broadcast.svg',
                 title: '2-Tap Creator',
                 desc: 'Pick activity & broadcast',
               },
               {
-                src: '/screenshots/04_acknowledged_broadcast.svg',
+                src: '/assets/04_acknowledged_broadcast.svg',
                 title: 'Live Activity & Acks',
-                desc: 'Lock screen timer & 1-tap join',
+                desc: 'Lock screen countdown & 1-tap join',
+              },
+              {
+                src: '/assets/05_invite_generation.svg',
+                title: 'Private Invites',
+                desc: 'Deep link generation for trusted circles',
+              },
+              {
+                src: '/assets/06_accept_invite.svg',
+                title: 'Circle Onboarding',
+                desc: 'Instant cryptographic verification',
+              },
+              {
+                src: '/assets/07_multi_user_acknowledgment.svg',
+                title: 'Multi-User Pulse',
+                desc: 'Real-time neighbor participation sync',
               },
             ].map(item => (
               <div
@@ -440,6 +484,75 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Join Waitlist Section */}
+      <section id="waitlist" className="py-24 px-6 sm:px-12 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+        <div className="max-w-xl mx-auto relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400 mb-6">
+            Early Access Alpha
+          </div>
+
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Bring Vicin to Your Neighborhood
+          </h3>
+          <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+            Get early access to our iOS TestFlight & Android builds for your apartment building,
+            dormitory floor, or local street circle.
+          </p>
+
+          {waitlistSubmitted ? (
+            <div className="bg-emerald-950/60 border border-emerald-500/40 rounded-2xl p-6 text-center shadow-2xl backdrop-blur-md">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 text-xl font-bold flex items-center justify-center mx-auto mb-3">
+                ✓
+              </div>
+              <h4 className="text-lg font-bold text-white mb-1">You're on the list!</h4>
+              <p className="text-emerald-300 text-xs leading-relaxed">
+                We'll email you an invite when Vicin launches in{' '}
+                {waitlistNeighborhood || 'your area'}.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleJoinWaitlist} className="space-y-3 text-left">
+              <div>
+                <label className="block text-[11px] uppercase font-semibold text-slate-400 mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={waitlistEmail}
+                  onChange={e => setWaitlistEmail(e.target.value)}
+                  placeholder="alex@neighborhood.org"
+                  className="w-full bg-[#12141C] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase font-semibold text-slate-400 mb-1.5">
+                  Neighborhood or Circle Name
+                </label>
+                <input
+                  type="text"
+                  value={waitlistNeighborhood}
+                  onChange={e => setWaitlistNeighborhood(e.target.value)}
+                  placeholder="e.g. Oakwood Building 4, NYU Dorm 7B"
+                  className="w-full bg-[#12141C] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={waitlistLoading}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-500/25 mt-2"
+              >
+                {waitlistLoading ? 'Submitting...' : 'Request Early Access ↗'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 

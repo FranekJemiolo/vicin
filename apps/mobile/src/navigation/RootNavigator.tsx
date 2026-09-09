@@ -5,6 +5,7 @@ import { NavigationContainer, LinkingOptions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../context/AuthContext';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 import { RootStackParamList, AuthStackParamList, MainTabParamList } from './types';
 
 // Screens
@@ -98,6 +99,9 @@ const linking: LinkingOptions<RootStackParamList> = {
 
 export const RootNavigator: React.FC = () => {
   const { user, loading } = useAuth();
+  usePushNotifications(data => {
+    console.log('Notification response received with data:', data);
+  });
 
   if (loading) {
     return (

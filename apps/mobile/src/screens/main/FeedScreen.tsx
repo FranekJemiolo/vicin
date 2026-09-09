@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../navigation/types';
 import { useGroup } from '../../hooks/useGroup';
 import { useBroadcasts } from '../../hooks/useBroadcasts';
 import { BroadcastCard } from '../../components/BroadcastCard';
+import { FeedSkeletonLoader } from '../../components/FeedSkeletonLoader';
 
 export const FeedScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -84,7 +85,9 @@ export const FeedScreen: React.FC = () => {
           <RefreshControl refreshing={loading} onRefresh={refetch} tintColor="#10B981" />
         }
       >
-        {broadcasts.length > 0 ? (
+        {loading && broadcasts.length === 0 ? (
+          <FeedSkeletonLoader />
+        ) : broadcasts.length > 0 ? (
           broadcasts.map(bc => (
             <BroadcastCard
               key={bc.id}
@@ -95,24 +98,36 @@ export const FeedScreen: React.FC = () => {
           ))
         ) : (
           <View className="flex-1 items-center justify-center py-16 text-center">
-            <View className="w-16 h-16 rounded-full bg-[#12141C] border border-white/10 items-center justify-center mb-4">
+            <View className="w-20 h-20 rounded-full bg-[#12141C] border border-white/10 items-center justify-center mb-5 shadow-2xl">
               <Text className="text-3xl">☕</Text>
             </View>
-            <Text className="text-lg font-bold text-white mb-1.5">Quiet in the neighborhood</Text>
-            <Text className="text-slate-400 text-xs text-center max-w-xs mb-6">
+            <Text className="text-xl font-bold text-white mb-2">Neighborhood is quiet</Text>
+            <Text className="text-slate-400 text-xs text-center max-w-xs mb-6 leading-relaxed">
               No active broadcasts in {currentGroup?.name || 'this circle'}. Be the first to let
-              people know you're free!
+              your trusted circle know you're free!
             </Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CreateBroadcastModal', { groupId: selectedGroupId })
-              }
-              className="bg-emerald-500/15 border border-emerald-500/30 px-5 py-3 rounded-xl"
-            >
-              <Text className="text-emerald-400 font-semibold text-xs">
-                Broadcast Your Availability
-              </Text>
-            </TouchableOpacity>
+
+            <View className="w-full max-w-xs space-y-3">
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('CreateBroadcastModal', { groupId: selectedGroupId })
+                }
+                className="w-full bg-emerald-500 active:bg-emerald-600 py-3.5 rounded-xl items-center shadow-lg shadow-emerald-500/25"
+              >
+                <Text className="text-white font-bold text-xs tracking-wide">
+                  + Broadcast Your Availability
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('GroupSettingsModal', { groupId: selectedGroupId })
+                }
+                className="w-full bg-[#12141C] border border-white/10 py-3 rounded-xl items-center mt-2"
+              >
+                <Text className="text-slate-300 font-semibold text-xs">+ Invite Neighbors</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </ScrollView>

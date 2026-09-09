@@ -8,12 +8,15 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "type-check": "tsc --noEmit",
-    "test": "node --test dist/__tests__/**/*.test.js || echo 'No UI tests'"
+    "test": "tsx --test src/__tests__/**/*.test.ts"
   },
   "dependencies": {
-    "@vicin/shared": "workspace:*"
+    "@vicin/shared": "workspace:*",
+    "react": "^19.3.0"
   },
   "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "typescript": "^5.5.4"
   }
 }

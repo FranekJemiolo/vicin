@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" fill="none">
+  <rect width="390" height="844" rx="48" fill="#090A0F"/>
+  <rect x="1" y="1" width="388" height="842" rx="47" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  <rect x="135" y="12" width="120" height="35" rx="17.5" fill="#000000"/>
+
+  <text x="32" y="90" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5">VICIN PULSE</text>
+  <text x="32" y="120" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="24" font-weight="800">Active Availability</text>
+
+  <!-- Live Activity Lock Screen Simulation -->
+  <rect x="24" y="180" width="342" height="100" rx="28" fill="#12141C" stroke="rgba(16,185,129,0.3)"/>
+  <circle cx="64" cy="230" r="22" fill="rgba(16,185,129,0.15)"/>
+  <text x="52" y="238" font-size="24">☕</text>
+  <text x="102" y="222" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700">Coffee Break</text>
+  <text x="102" y="240" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="12">Greenwich Village Pod</text>
+  <text x="280" y="222" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700">38:12</text>
+  <text x="280" y="240" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="11">2 in lobby</text>
+
+  <!-- Success Notification banner -->
+  <rect x="24" y="310" width="342" height="60" rx="16" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.2)"/>
+  <text x="44" y="345" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="13" font-weight="600">✓ You acknowledged Bob's Coffee Break!</text>
+
+  <!-- Broadcast Card with multiple acks -->
+  <rect x="24" y="394" width="342" height="210" rx="24" fill="#12141C" stroke="rgba(255,255,255,0.08)"/>
+  <circle cx="56" cy="430" r="18" fill="rgba(16,185,129,0.2)"/>
+  <text x="50" y="436" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700">B</text>
+  <text x="84" y="428" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700">Bob Martinez</text>
+  <text x="84" y="444" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="11">Greenwich Village Pod</text>
+
+  <rect x="40" y="468" width="310" height="54" rx="14" fill="#1A1D27"/>
+  <text x="56" y="503" font-size="24">☕</text>
+  <text x="96" y="495" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700">Coffee Break</text>
+  <text x="96" y="510" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="11">At Joe Coffee on the corner, laptop out!</text>
+
+  <!-- Participants Joined -->
+  <circle cx="54" cy="564" r="12" fill="#10B981"/>
+  <text x="50" y="568" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700">A</text>
+  <circle cx="72" cy="564" r="12" fill="#3B82F6"/>
+  <text x="68" y="568" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700">C</text>
+  <text x="94" y="568" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600">2 neighbors in</text>
+
+  <rect x="250" y="546" width="102" height="36" rx="10" fill="#10B981"/>
+  <text x="268" y="569" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700">✓ You're In</text>
+
+  <rect y="756" width="390" height="88" fill="#090A0F" stroke="rgba(255,255,255,0.08)"/>
+  <text x="65" y="796" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="700">Pulse</text>
+  <text x="180" y="796" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="500">Groups</text>
+  <text x="295" y="796" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="500">Profile</text>
+</svg>

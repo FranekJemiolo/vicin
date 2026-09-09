@@ -1,0 +1,26 @@
+appId: com.franekjemiolo.vicin
+---
+# Vicin Mobile Core User Flow & Screenshot Generation
+- launchApp:
+    clearState: true
+
+# Step 1: Capture Auth & Welcome View
+- assertVisible: 'Welcome back'
+- takeScreenshot: apps/web/public/screenshots/01_login_screen
+
+# Step 2: Sign In & Capture Active Pulse Feed
+- tapOn: 'Sign In'
+- assertVisible: 'Active Availability'
+- takeScreenshot: apps/web/public/screenshots/02_active_feed
+
+# Step 3: Open Broadcast Creator & Select Activity
+- tapOn: '+ Broadcast'
+- assertVisible: 'Broadcast Availability'
+- takeScreenshot: apps/web/public/screenshots/03_create_broadcast
+
+# Step 4: Submit Broadcast & Acknowledge
+- tapOn: 'Broadcast Availability Now'
+- assertVisible: 'Active Availability'
+- tapOn: "I'm in"
+- assertVisible: "✓ I'm In!"
+- takeScreenshot: apps/web/public/screenshots/04_acknowledged_broadcast

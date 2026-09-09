@@ -1,11 +1,4 @@
-import {
-  User,
-  Group,
-  GroupMember,
-  Activity,
-  Broadcast,
-  Acknowledgment,
-} from '@vicin/shared';
+import { User, Group, GroupMember, Activity, Broadcast, Acknowledgment } from '@vicin/shared';
 
 export interface DatabaseState {
   users: Map<string, User>;

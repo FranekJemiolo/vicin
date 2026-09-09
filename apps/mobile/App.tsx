@@ -1,32 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { AuthProviderComponent } from './src/context/AuthContext';
+import { RootNavigator } from './src/navigation/RootNavigator';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Vicin</Text>
-      <Text style={styles.subtitle}>Spontaneous neighborhood availability</Text>
-      <StatusBar style="light" />
-    </View>
+    <SafeAreaProvider>
+      <AuthProviderComponent>
+        <RootNavigator />
+        <StatusBar style="light" />
+      </AuthProviderComponent>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#090A0F',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#F8FAFC',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#94A3B8',
-  },
-});

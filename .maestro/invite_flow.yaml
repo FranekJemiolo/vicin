@@ -1,0 +1,41 @@
+appId: com.franekjemiolo.vicin
+---
+# Vicin Multi-User Invite & Broadcast Interaction E2E Flow
+
+# Step 1: User A - Generates Deep-Link Invite
+- launchApp:
+    clearState: true
+- assertVisible: 'Welcome back'
+- tapOn: 'Sign In'
+- assertVisible: 'Active Availability'
+
+# Step 2: Open Group Settings & Copy Invite Link
+- tapOn: 'Circles'
+- assertVisible: 'Your Circles'
+- tapOn: 'Neighborhood Oakwood'
+- assertVisible: 'Circle Settings'
+- tapOn: 'Invite New Neighbor'
+- assertVisible: 'Invite Link Generated'
+- takeScreenshot: apps/web/public/assets/05_invite_generation
+
+# Step 3: User B - Deep Link Invitation Redemption
+- openLink: 'vicin://invite/inv_oakwood_9921'
+- assertVisible: 'Join Circle'
+- assertVisible: 'Oakwood Neighbors'
+- takeScreenshot: apps/web/public/assets/06_accept_invite
+- tapOn: 'Join Oakwood Neighbors'
+- assertVisible: 'Welcome to Oakwood Neighbors'
+
+# Step 4: Multi-User Broadcast Flow (User A broadcasts, User B acknowledges)
+# User A initiates "Coffee Break at Lobby"
+- tapOn: '+ Broadcast'
+- tapOn: 'Coffee break'
+- tapOn: 'Broadcast Availability Now'
+- assertVisible: 'Coffee break'
+
+# User B receives live feed update & confirms participation
+- assertVisible: "I'm in"
+- tapOn: "I'm in"
+- assertVisible: "✓ I'm In!"
+- assertVisible: '2 joined'
+- takeScreenshot: apps/web/public/assets/07_multi_user_acknowledgment

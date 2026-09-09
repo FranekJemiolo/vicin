@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" fill="none">
+  <rect width="390" height="844" rx="48" fill="#090A0F"/>
+  <rect x="1" y="1" width="388" height="842" rx="47" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  <rect x="135" y="12" width="120" height="35" rx="17.5" fill="#000000"/>
+
+  <!-- Header -->
+  <text x="32" y="90" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5">VICIN PULSE</text>
+  <text x="32" y="120" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="24" font-weight="800">Active Availability</text>
+  
+  <rect x="250" y="92" width="108" height="36" rx="12" fill="#10B981"/>
+  <text x="272" y="115" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700">+ Broadcast</text>
+
+  <!-- Group Pill -->
+  <rect x="32" y="142" width="170" height="32" rx="16" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.4)"/>
+  <text x="48" y="163" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600">Greenwich Village Pod</text>
+
+  <!-- Broadcast Card 1 -->
+  <rect x="24" y="196" width="342" height="190" rx="24" fill="#12141C" stroke="rgba(255,255,255,0.08)"/>
+  <circle cx="56" cy="232" r="18" fill="rgba(16,185,129,0.2)"/>
+  <text x="50" y="238" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700">B</text>
+  <text x="84" y="230" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700">Bob Martinez</text>
+  <text x="84" y="246" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="11">Greenwich Village Pod</text>
+
+  <rect x="270" y="220" width="82" height="26" rx="13" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.2)"/>
+  <circle cx="282" cy="233" r="3" fill="#10B981"/>
+  <text x="292" y="237" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="600">42m left</text>
+
+  <!-- Activity Pill in Card -->
+  <rect x="40" y="268" width="310" height="54" rx="14" fill="#1A1D27"/>
+  <text x="56" y="303" font-size="24">☕</text>
+  <text x="96" y="295" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="14" font-weight="700">Coffee Break</text>
+  <text x="96" y="310" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="11">At Joe Coffee on the corner, laptop out!</text>
+
+  <!-- Card Action -->
+  <text x="44" y="356" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="12">1 person is in</text>
+  <rect x="260" y="338" width="92" height="34" rx="10" fill="#10B981"/>
+  <text x="282" y="359" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700">✓ I'm In!</text>
+
+  <!-- Tab Bar -->
+  <rect y="756" width="390" height="88" fill="#090A0F" stroke="rgba(255,255,255,0.08)"/>
+  <text x="65" y="796" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="700">Pulse</text>
+  <text x="180" y="796" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="500">Groups</text>
+  <text x="295" y="796" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="500">Profile</text>
+</svg>

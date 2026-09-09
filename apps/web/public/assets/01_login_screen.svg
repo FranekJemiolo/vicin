@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844" fill="none">
+  <!-- Phone Frame Background -->
+  <rect width="390" height="844" rx="48" fill="#090A0F"/>
+  <rect x="1" y="1" width="388" height="842" rx="47" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  
+  <!-- Dynamic Island -->
+  <rect x="135" y="12" width="120" height="35" rx="17.5" fill="#000000"/>
+
+  <!-- Logo & Title -->
+  <circle cx="48" cy="140" r="6" fill="#10B981"/>
+  <text x="64" y="145" fill="#10B981" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="2">VICIN</text>
+  <text x="40" y="186" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="32" font-weight="800">Welcome back</text>
+  <text x="40" y="214" fill="#94A3B8" font-family="-apple-system, system-ui, sans-serif" font-size="14">Sign in to check availability in your circle.</text>
+
+  <!-- Input 1 -->
+  <text x="40" y="270" fill="#CBD5E1" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600">Email</text>
+  <rect x="40" y="282" width="310" height="52" rx="14" fill="#12141C" stroke="rgba(255,255,255,0.1)"/>
+  <text x="56" y="314" fill="#F8FAFC" font-family="-apple-system, system-ui, sans-serif" font-size="14">alice@vicin.app</text>
+
+  <!-- Input 2 -->
+  <text x="40" y="362" fill="#CBD5E1" font-family="-apple-system, system-ui, sans-serif" font-size="12" font-weight="600">Password</text>
+  <rect x="40" y="374" width="310" height="52" rx="14" fill="#12141C" stroke="rgba(255,255,255,0.1)"/>
+  <text x="56" y="406" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="14">••••••••••••</text>
+
+  <!-- Sign In Button -->
+  <rect x="40" y="454" width="310" height="52" rx="14" fill="#10B981"/>
+  <text x="165" y="486" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700">Sign In</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="540" x2="140" y2="540" stroke="rgba(255,255,255,0.1)"/>
+  <text x="152" y="544" fill="#64748B" font-family="-apple-system, system-ui, sans-serif" font-size="11" font-weight="600">OR CONTINUE WITH</text>
+  <line x1="250" y1="540" x2="350" y2="540" stroke="rgba(255,255,255,0.1)"/>
+
+  <!-- Social SSO buttons -->
+  <rect x="40" y="565" width="96" height="46" rx="12" fill="#12141C" stroke="rgba(255,255,255,0.1)"/>
+  <text x="72" y="593" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="13" font-weight="600">Apple</text>
+
+  <rect x="147" y="565" width="96" height="46" rx="12" fill="#12141C" stroke="rgba(255,255,255,0.1)"/>
+  <text x="175" y="593" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="13" font-weight="600">Google</text>
+
+  <rect x="254" y="565" width="96" height="46" rx="12" fill="#12141C" stroke="rgba(255,255,255,0.1)"/>
+  <text x="277" y="593" fill="#FFFFFF" font-family="-apple-system, system-ui, sans-serif" font-size="13" font-weight="600">Facebook</text>
+</svg>

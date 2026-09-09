@@ -317,6 +317,20 @@ export function useGroup() {
     }
   };
 
+  const promoteMember = async (groupId: string, userId: string, newRole: 'admin' | 'member') => {
+    setMembers(prev =>
+      prev.map(m => (m.group_id === groupId && m.user_id === userId ? { ...m, role: newRole } : m))
+    );
+
+    if (!isMockMode) {
+      await supabase
+        .from('group_members')
+        .update({ role: newRole })
+        .eq('group_id', groupId)
+        .eq('user_id', userId);
+    }
+  };
+
   return {
     groups,
     currentGroup,
@@ -334,5 +348,6 @@ export function useGroup() {
     togglePush,
     leaveGroup,
     removeMember,
+    promoteMember,
   };
 }

@@ -20,6 +20,8 @@ export const GroupSettingsModal: React.FC = () => {
     createInvite,
     togglePush,
     leaveGroup,
+    removeMember,
+    promoteMember,
   } = useGroup();
 
   const [inviteUrl, setInviteUrl] = useState<string | null>(null);
@@ -187,35 +189,68 @@ export const GroupSettingsModal: React.FC = () => {
           </View>
         </View>
 
-        {/* Group Members List */}
+        {/* Group Members List & Admin Actions */}
         <View className="bg-[#12141C] border border-white/10 rounded-2xl p-5 mb-8">
           <Text className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">
             Active Members ({members.length})
           </Text>
-          <View className="space-y-2">
-            {members.map(m => (
-              <View
-                key={m.user_id}
-                className="flex-row items-center justify-between py-2 border-b border-white/5 last:border-0"
-              >
-                <View className="flex-row items-center gap-2.5">
-                  <View className="w-7 h-7 rounded-full bg-emerald-500/20 items-center justify-center">
-                    <Text className="text-xs text-emerald-400 font-bold">
-                      {m.user?.name?.[0] || 'M'}
-                    </Text>
+          <View className="space-y-3">
+            {members.map(m => {
+              const isMe = m.user_id === user?.id;
+              const isOwner = currentUserMembership?.role === 'owner';
+              const isAdmin = currentUserMembership?.role === 'admin';
+              const canManage = (isOwner || isAdmin) && !isMe && m.role !== 'owner';
+
+              return (
+                <View
+                  key={m.user_id}
+                  className="flex-row items-center justify-between py-2 border-b border-white/5 last:border-0"
+                >
+                  <View className="flex-row items-center gap-2.5">
+                    <View className="w-7 h-7 rounded-full bg-emerald-500/20 items-center justify-center">
+                      <Text className="text-xs text-emerald-400 font-bold">
+                        {m.user?.name?.[0] || 'M'}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text className="text-white text-xs font-medium">
+                        {m.user?.name || 'Member'}
+                        {isMe ? ' (You)' : ''}
+                      </Text>
+                      <Text className="text-slate-500 text-[10px] uppercase font-semibold">
+                        {m.role}
+                      </Text>
+                    </View>
                   </View>
-                  <View>
-                    <Text className="text-white text-xs font-medium">
-                      {m.user?.name || 'Member'}
-                      {m.user_id === user?.id ? ' (You)' : ''}
-                    </Text>
-                    <Text className="text-slate-500 text-[10px] uppercase font-semibold">
-                      {m.role}
-                    </Text>
-                  </View>
+
+                  {canManage ? (
+                    <View className="flex-row items-center gap-2">
+                      <TouchableOpacity
+                        onPress={() =>
+                          promoteMember(
+                            route.params.groupId,
+                            m.user_id,
+                            m.role === 'admin' ? 'member' : 'admin'
+                          )
+                        }
+                        className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10"
+                      >
+                        <Text className="text-slate-300 text-[10px] font-semibold">
+                          {m.role === 'admin' ? 'Demote' : 'Make Admin'}
+                        </Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() => removeMember(route.params.groupId, m.user_id)}
+                        className="px-2 py-1 rounded-lg bg-rose-500/10 border border-rose-500/20"
+                      >
+                        <Text className="text-rose-400 text-[10px] font-semibold">Kick</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ) : null}
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         </View>
 

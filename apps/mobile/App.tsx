@@ -3,6 +3,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProviderComponent } from './src/context/AuthContext';
+import { ToastProvider } from './src/context/ToastContext';
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { RootNavigator } from './src/navigation/RootNavigator';
 
 const queryClient = new QueryClient({
@@ -16,13 +18,17 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProviderComponent>
-          <RootNavigator />
-          <StatusBar style="light" />
-        </AuthProviderComponent>
-      </QueryClientProvider>
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProviderComponent>
+            <ToastProvider>
+              <RootNavigator />
+              <StatusBar style="light" />
+            </ToastProvider>
+          </AuthProviderComponent>
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

@@ -29,6 +29,6 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "vicin",
-    "plugins": ["expo-notifications"]
+    "plugins": ["expo-notifications", "./plugins/withLiveActivities", "./plugins/withWidgets"]
   }
 }

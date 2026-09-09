@@ -17,5 +17,13 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
   ignorePatterns: ['node_modules/', 'dist/', '.next/', 'out/', '.expo/', 'build/', 'coverage/'],
 };

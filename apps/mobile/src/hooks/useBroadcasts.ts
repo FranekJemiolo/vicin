@@ -117,14 +117,15 @@ export function useBroadcasts(groupId?: string) {
         .order('created_at', { ascending: false });
 
       if (data && !error) {
-        interface RawBroadcastResponse extends BroadcastWithDetails {
-          acknowledgments: Array<{ user_id: string; [key: string]: unknown }>;
-        }
+        type RawBroadcastResponse = Omit<
+          BroadcastWithDetails,
+          'acknowledgment_count' | 'user_has_acknowledged'
+        >;
         const enriched: BroadcastWithDetails[] = (data as unknown as RawBroadcastResponse[]).map(
           b => ({
             ...b,
             acknowledgment_count: b.acknowledgments?.length || 0,
-            user_has_acknowledged: b.acknowledgments?.some(a => a.user_id === user?.id),
+            user_has_acknowledged: b.acknowledgments?.some(a => a.user_id === user?.id) || false,
           })
         );
         setBroadcasts(enriched);

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "test": "tsx --test src/__tests__/**/*.test.ts || echo 'Backend tests pass'",
+    "test": "tsx --test 'src/**/*.test.ts'",
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {

@@ -1,0 +1,31 @@
+appId: com.franekjemiolo.vicin
+---
+# Vicin Group Settings & Custom Activity Management E2E Flow
+
+- launchApp:
+    clearState: false
+- assertVisible: 'Active Availability'
+
+# Step 1: Open Circles & Circle Settings
+- tapOn: 'Circles'
+- assertVisible: 'Your Circles'
+- tapOn: 'Oakwood Neighbors'
+- assertVisible: 'Circle Settings'
+
+# Step 2: Toggle Granular Push Notification Preference
+- assertVisible: 'Push Notifications for Circle'
+- tapOn: 'Push Notifications for Circle'
+
+# Step 3: Add Custom Activity to Circle Dictionary
+- tapOn: '+ Add Activity'
+- assertVisible: 'Create Activity'
+- tapOn: 'Activity Name'
+- inputText: 'Ping Pong'
+- tapOn: '🏓'
+- tapOn: 'Save Activity'
+- assertVisible: 'Ping Pong'
+
+# Step 4: Verify Custom Activity Appears in Broadcast Creator
+- tapOn: 'Pulse'
+- tapOn: '+ Broadcast'
+- assertVisible: 'Ping Pong'

@@ -25,30 +25,77 @@ export default function HomePage() {
   const [selectedDuration, setSelectedDuration] = useState('45m');
   const [customNote, setCustomNote] = useState('');
 
-  const [broadcasts, setBroadcasts] = useState<DemoBroadcast[]>([
-    {
-      id: '1',
-      name: 'Bob Martinez',
-      emoji: '☕',
-      activity: 'Coffee Break',
-      duration: '45m',
-      note: 'At Joe Coffee on the corner, laptop open!',
-      timeRemaining: '38m left',
-      acks: 2,
-      userAcked: false,
-    },
-    {
-      id: '2',
-      name: 'Alice Chen',
-      emoji: '🐕',
-      activity: 'Dog Walk',
-      duration: '30m',
-      note: 'Heading to Washington Square Park with Milo',
-      timeRemaining: '19m left',
-      acks: 1,
-      userAcked: true,
-    },
-  ]);
+  const [selectedCircle, setSelectedCircle] = useState<'greenwich' | 'nyu' | 'oakwood'>(
+    'greenwich'
+  );
+
+  const [broadcastsByCircle, setBroadcastsByCircle] = useState<
+    Record<'greenwich' | 'nyu' | 'oakwood', DemoBroadcast[]>
+  >({
+    greenwich: [
+      {
+        id: '1',
+        name: 'Bob Martinez',
+        emoji: '☕',
+        activity: 'Coffee Break',
+        duration: '45m',
+        note: 'At Joe Coffee on the corner, laptop open!',
+        timeRemaining: '38m left',
+        acks: 2,
+        userAcked: false,
+      },
+      {
+        id: '2',
+        name: 'Alice Chen',
+        emoji: '🐕',
+        activity: 'Dog Walk',
+        duration: '30m',
+        note: 'Heading to Washington Square Park with Milo',
+        timeRemaining: '19m left',
+        acks: 1,
+        userAcked: true,
+      },
+    ],
+    nyu: [
+      {
+        id: '3',
+        name: 'Jordan Lee',
+        emoji: '🍕',
+        activity: 'Late Night Pizza',
+        duration: '40m',
+        note: 'In floor 3 common room, 2 boxes left!',
+        timeRemaining: '26m left',
+        acks: 3,
+        userAcked: false,
+      },
+      {
+        id: '4',
+        name: 'Maya Patel',
+        emoji: '💻',
+        activity: 'Study Session',
+        duration: '2h',
+        note: 'Bobst Library LL2 quiet cubicles',
+        timeRemaining: '1h 15m left',
+        acks: 2,
+        userAcked: true,
+      },
+    ],
+    oakwood: [
+      {
+        id: '5',
+        name: 'David Ross',
+        emoji: '🏃',
+        activity: 'Morning Jog',
+        duration: '30m',
+        note: 'Doing the perimeter trail, easy pace',
+        timeRemaining: '12m left',
+        acks: 1,
+        userAcked: false,
+      },
+    ],
+  });
+
+  const broadcasts = broadcastsByCircle[selectedCircle];
 
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistNeighborhood, setWaitlistNeighborhood] = useState('');
@@ -68,7 +115,10 @@ export default function HomePage() {
       acks: 0,
       userAcked: false,
     };
-    setBroadcasts([newBc, ...broadcasts]);
+    setBroadcastsByCircle(prev => ({
+      ...prev,
+      [selectedCircle]: [newBc, ...prev[selectedCircle]],
+    }));
     setCustomNote('');
     setActiveTab('feed');
   };
@@ -98,16 +148,17 @@ export default function HomePage() {
   };
 
   const handleToggleAck = (id: string) => {
-    setBroadcasts(prev =>
-      prev.map(b => {
+    setBroadcastsByCircle(prev => ({
+      ...prev,
+      [selectedCircle]: prev[selectedCircle].map(b => {
         if (b.id !== id) return b;
         return {
           ...b,
           userAcked: !b.userAcked,
           acks: b.userAcked ? b.acks - 1 : b.acks + 1,
         };
-      })
-    );
+      }),
+    }));
   };
 
   return (
@@ -201,167 +252,293 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Simulator Container */}
-          <div className="bg-[#12141C] border border-white/10 rounded-3xl p-6 sm:p-8 max-w-xl mx-auto shadow-2xl">
-            {/* Simulator Header Tabs */}
-            <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                <span className="font-bold text-white text-sm">Greenwich Village Pod</span>
+          {/* Circle Selector Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+            {[
+              { id: 'greenwich', name: '🏡 Greenwich Village Pod', members: '14 neighbors' },
+              { id: 'nyu', name: '🎓 NYU Dorm Floor 3', members: '8 roommates' },
+              { id: 'oakwood', name: '🌲 Oakwood Building 4', members: '22 residents' },
+            ].map(circle => (
+              <button
+                key={circle.id}
+                type="button"
+                onClick={() => setSelectedCircle(circle.id as 'greenwich' | 'nyu' | 'oakwood')}
+                className={`px-4 py-2 rounded-2xl border text-xs font-semibold transition-all flex items-center gap-2 ${
+                  selectedCircle === circle.id
+                    ? 'bg-emerald-500/15 border-emerald-500 text-emerald-400 shadow-lg shadow-emerald-500/10'
+                    : 'bg-[#12141C] border-white/10 text-slate-400 hover:text-white hover:border-white/20'
+                }`}
+              >
+                <span>{circle.name}</span>
+                <span className="text-[10px] text-slate-500 font-mono">({circle.members})</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Simulator Grid (Feed + Live Activity Lock Screen Mockup) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
+            {/* Left Col: Main Interactive App Simulator */}
+            <div className="lg:col-span-7 bg-[#12141C] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl">
+              {/* Simulator Header Tabs */}
+              <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-white text-sm">
+                    {selectedCircle === 'greenwich'
+                      ? 'Greenwich Village Pod'
+                      : selectedCircle === 'nyu'
+                        ? 'NYU Dorm Floor 3'
+                        : 'Oakwood Building 4'}
+                  </span>
+                </div>
+                <div className="flex bg-[#1A1D27] p-1 rounded-xl border border-white/5">
+                  <button
+                    onClick={() => setActiveTab('feed')}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      activeTab === 'feed'
+                        ? 'bg-emerald-500 text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Live Feed ({broadcasts.length})
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('create')}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      activeTab === 'create'
+                        ? 'bg-emerald-500 text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    + Broadcast
+                  </button>
+                </div>
               </div>
-              <div className="flex bg-[#1A1D27] p-1 rounded-xl border border-white/5">
-                <button
-                  onClick={() => setActiveTab('feed')}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
-                    activeTab === 'feed'
-                      ? 'bg-emerald-500 text-white shadow'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Live Feed ({broadcasts.length})
-                </button>
-                <button
-                  onClick={() => setActiveTab('create')}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
-                    activeTab === 'create'
-                      ? 'bg-emerald-500 text-white shadow'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  + Broadcast
-                </button>
-              </div>
+
+              {/* Tab: Feed */}
+              {activeTab === 'feed' && (
+                <div className="space-y-4">
+                  {broadcasts.map(b => (
+                    <div
+                      key={b.id}
+                      className="bg-[#1A1D27]/90 border border-white/10 rounded-2xl p-4 transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center">
+                            {b.name[0]}
+                          </div>
+                          <div>
+                            <div className="text-white font-semibold text-xs">{b.name}</div>
+                            <div className="text-slate-500 text-[10px]">{b.timeRemaining}</div>
+                          </div>
+                        </div>
+
+                        <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full">
+                          ACTIVE
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-3 bg-[#12141C] p-3 rounded-xl mb-3">
+                        <span className="text-2xl">{b.emoji}</span>
+                        <div className="flex-1">
+                          <div className="text-white font-bold text-xs">{b.activity}</div>
+                          <div className="text-slate-400 text-[11px]">{b.note}</div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-slate-400 text-xs font-medium">
+                          {b.acks > 0
+                            ? `${b.acks} ${b.acks === 1 ? 'neighbor is in' : 'neighbors are in'}`
+                            : 'No one has joined yet'}
+                        </span>
+
+                        <button
+                          onClick={() => handleToggleAck(b.id)}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                            b.userAcked
+                              ? 'bg-emerald-500 text-white'
+                              : 'bg-white/10 hover:bg-white/15 text-slate-200'
+                          }`}
+                        >
+                          {b.userAcked ? "✓ You're in!" : "I'm in"}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Tab: Create */}
+              {activeTab === 'create' && (
+                <form onSubmit={handleCreateBroadcast} className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
+                      Pick an Activity
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { emoji: '☕', name: 'Coffee Break' },
+                        { emoji: '🐕', name: 'Dog Walk' },
+                        { emoji: '🍕', name: 'Quick Lunch' },
+                        { emoji: '💻', name: 'Co-working' },
+                      ].map(act => (
+                        <button
+                          key={act.name}
+                          type="button"
+                          onClick={() => setSelectedActivity(act)}
+                          className={`flex items-center gap-2 p-2.5 rounded-xl border text-left text-xs font-semibold transition-all ${
+                            selectedActivity.name === act.name
+                              ? 'bg-emerald-500/20 border-emerald-500 text-white'
+                              : 'bg-[#1A1D27] border-white/5 text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          <span className="text-lg">{act.emoji}</span>
+                          <span>{act.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
+                      Availability Duration
+                    </label>
+                    <div className="flex gap-2">
+                      {['15m', '30m', '45m', '1h', '2h'].map(dur => (
+                        <button
+                          key={dur}
+                          type="button"
+                          onClick={() => setSelectedDuration(dur)}
+                          className={`flex-1 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
+                            selectedDuration === dur
+                              ? 'bg-emerald-500 border-emerald-400 text-white'
+                              : 'bg-[#1A1D27] border-white/5 text-slate-400'
+                          }`}
+                        >
+                          {dur}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
+                      Optional Note
+                    </label>
+                    <input
+                      type="text"
+                      value={customNote}
+                      onChange={e => setCustomNote(e.target.value)}
+                      placeholder="e.g. In lobby lounge, coffee machine is on..."
+                      className="w-full bg-[#1A1D27] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs tracking-wider uppercase transition-all shadow-lg shadow-emerald-500/20"
+                  >
+                    Broadcast to{' '}
+                    {selectedCircle === 'greenwich'
+                      ? 'Greenwich Village Pod'
+                      : selectedCircle === 'nyu'
+                        ? 'NYU Dorm Floor 3'
+                        : 'Oakwood Building 4'}
+                  </button>
+                </form>
+              )}
             </div>
 
-            {/* Tab: Feed */}
-            {activeTab === 'feed' && (
-              <div className="space-y-4">
-                {broadcasts.map(b => (
-                  <div
-                    key={b.id}
-                    className="bg-[#1A1D27]/90 border border-white/10 rounded-2xl p-4 transition-all"
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center">
-                          {b.name[0]}
-                        </div>
-                        <div>
-                          <div className="text-white font-semibold text-xs">{b.name}</div>
-                          <div className="text-slate-500 text-[10px]">{b.timeRemaining}</div>
-                        </div>
-                      </div>
+            {/* Right Col: Interactive Lock Screen & Live Activity Preview */}
+            <div className="lg:col-span-5 flex flex-col items-center">
+              <div className="w-full max-w-[340px] bg-gradient-to-b from-[#1E2230] via-[#0E1017] to-[#090A0F] border-[6px] border-[#2A2E3D] rounded-[48px] p-5 shadow-2xl relative overflow-hidden">
+                {/* Dynamic Island */}
+                <div className="w-28 h-6 bg-black rounded-full mx-auto mb-6 flex items-center justify-between px-2.5 shadow-inner">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500/80 animate-pulse" />
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                    {broadcasts[0]?.emoji || '⚡'}
+                  </span>
+                </div>
 
-                      <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full">
-                        ACTIVE
+                {/* Lock Screen Time */}
+                <div className="text-center mb-6">
+                  <div className="text-[11px] font-medium text-slate-400">
+                    Wednesday, September 10
+                  </div>
+                  <div className="text-5xl font-extrabold tracking-tight text-white font-sans">
+                    09:41
+                  </div>
+                </div>
+
+                {/* Lock Screen Live Activity Card */}
+                {broadcasts[0] ? (
+                  <div className="bg-[#161925]/90 border border-emerald-500/30 rounded-3xl p-4 shadow-xl backdrop-blur-md transition-all">
+                    <div className="flex items-center justify-between mb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                          Vicin Live Pulse
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                        {broadcasts[0].timeRemaining}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 bg-[#12141C] p-3 rounded-xl mb-3">
-                      <span className="text-2xl">{b.emoji}</span>
-                      <div className="flex-1">
-                        <div className="text-white font-bold text-xs">{b.activity}</div>
-                        <div className="text-slate-400 text-[11px]">{b.note}</div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-2xl bg-[#090A0F] border border-white/10 flex items-center justify-center text-xl">
+                        {broadcasts[0].emoji}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-white font-bold text-xs truncate">
+                          {broadcasts[0].activity}
+                        </div>
+                        <div className="text-slate-400 text-[10px] truncate">
+                          {broadcasts[0].name} • {broadcasts[0].note}
+                        </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-1">
-                      <span className="text-slate-400 text-xs font-medium">
-                        {b.acks > 0
-                          ? `${b.acks} ${b.acks === 1 ? 'neighbor is in' : 'neighbors are in'}`
-                          : 'No one has joined yet'}
+                    <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                      <span className="text-[11px] text-slate-400">
+                        {broadcasts[0].acks > 0
+                          ? `${broadcasts[0].acks} in circle joined`
+                          : 'Waiting for 1st neighbor'}
                       </span>
-
                       <button
-                        onClick={() => handleToggleAck(b.id)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                          b.userAcked
-                            ? 'bg-emerald-500 text-white'
+                        type="button"
+                        onClick={() => handleToggleAck(broadcasts[0].id)}
+                        className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all ${
+                          broadcasts[0].userAcked
+                            ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20'
                             : 'bg-white/10 hover:bg-white/15 text-slate-200'
                         }`}
                       >
-                        {b.userAcked ? "✓ You're in!" : "I'm in"}
+                        {broadcasts[0].userAcked ? "✓ I'm In" : "I'm In"}
                       </button>
                     </div>
                   </div>
-                ))}
+                ) : (
+                  <div className="bg-[#12141C]/80 border border-white/10 rounded-2xl p-4 text-center">
+                    <span className="text-xs text-slate-400">No active pulse right now</span>
+                  </div>
+                )}
+
+                {/* Home Indicator */}
+                <div className="w-32 h-1 bg-white/30 rounded-full mx-auto mt-8 mb-1" />
               </div>
-            )}
 
-            {/* Tab: Create */}
-            {activeTab === 'create' && (
-              <form onSubmit={handleCreateBroadcast} className="space-y-5">
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
-                    Pick an Activity
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { emoji: '☕', name: 'Coffee Break' },
-                      { emoji: '🐕', name: 'Dog Walk' },
-                      { emoji: '🍕', name: 'Quick Lunch' },
-                      { emoji: '💻', name: 'Co-working' },
-                    ].map(act => (
-                      <button
-                        key={act.name}
-                        type="button"
-                        onClick={() => setSelectedActivity(act)}
-                        className={`flex items-center gap-2 p-2.5 rounded-xl border text-left text-xs font-semibold transition-all ${
-                          selectedActivity.name === act.name
-                            ? 'bg-emerald-500/20 border-emerald-500 text-white'
-                            : 'bg-[#1A1D27] border-white/5 text-slate-400 hover:text-white'
-                        }`}
-                      >
-                        <span className="text-lg">{act.emoji}</span>
-                        <span>{act.name}</span>
-                      </button>
-                    ))}
-                  </div>
+              <div className="mt-4 text-center">
+                <div className="text-xs font-semibold text-emerald-400 flex items-center justify-center gap-1.5">
+                  <span> iOS Live Activities</span>
                 </div>
-
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
-                    Availability Duration
-                  </label>
-                  <div className="flex gap-2">
-                    {['15m', '30m', '45m', '1h', '2h'].map(dur => (
-                      <button
-                        key={dur}
-                        type="button"
-                        onClick={() => setSelectedDuration(dur)}
-                        className={`flex-1 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
-                          selectedDuration === dur
-                            ? 'bg-emerald-500 border-emerald-400 text-white'
-                            : 'bg-[#1A1D27] border-white/5 text-slate-400'
-                        }`}
-                      >
-                        {dur}
-                      </button>
-                    ))}
-                  </div>
+                <div className="text-[11px] text-slate-500 mt-0.5">
+                  Broadcast status appears directly on Lock Screen & Dynamic Island
                 </div>
-
-                <div>
-                  <label className="block text-[11px] uppercase tracking-wider font-semibold text-slate-400 mb-2">
-                    Optional Note
-                  </label>
-                  <input
-                    type="text"
-                    value={customNote}
-                    onChange={e => setCustomNote(e.target.value)}
-                    placeholder="e.g. In lobby lounge, coffee machine is on..."
-                    className="w-full bg-[#1A1D27] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs tracking-wider uppercase transition-all shadow-lg shadow-emerald-500/20"
-                >
-                  Broadcast to Greenwich Village Pod
-                </button>
-              </form>
-            )}
+              </div>
+            </div>
           </div>
         </div>
       </section>

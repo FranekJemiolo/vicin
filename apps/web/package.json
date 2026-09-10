@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test": "echo 'Web tests pass'"
+    "test": "tsx --test"
   },
   "dependencies": {
     "@vicin/shared": "workspace:*",

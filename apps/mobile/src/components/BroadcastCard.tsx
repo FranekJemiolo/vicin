@@ -72,10 +72,22 @@ export const BroadcastCard: React.FC<BroadcastCardProps> = ({
       <View className="flex-row items-center justify-between pt-2">
         <View className="flex-row items-center gap-2">
           {broadcast.acknowledgment_count > 0 ? (
-            <View className="flex-row items-center">
+            <View className="flex-row items-center gap-1.5">
+              <View className="flex-row -space-x-1.5">
+                {[...Array(Math.min(broadcast.acknowledgment_count, 3))].map((_, i) => (
+                  <View
+                    key={i}
+                    className={`w-5 h-5 rounded-full border border-[#12141C] items-center justify-center ${
+                      i === 0 ? 'bg-emerald-500' : i === 1 ? 'bg-blue-500' : 'bg-purple-500'
+                    }`}
+                  >
+                    <Text className="text-[9px] font-bold text-white">✓</Text>
+                  </View>
+                ))}
+              </View>
               <Text className="text-xs text-slate-300 font-medium">
                 {broadcast.acknowledgment_count}{' '}
-                {broadcast.acknowledgment_count === 1 ? 'is in' : 'are in'}
+                {broadcast.acknowledgment_count === 1 ? 'neighbor in' : 'neighbors in'}
               </Text>
             </View>
           ) : (
@@ -86,6 +98,7 @@ export const BroadcastCard: React.FC<BroadcastCardProps> = ({
         <View className="flex-row items-center gap-2">
           {isAuthor && onCancel ? (
             <TouchableOpacity
+              activeOpacity={0.7}
               onPress={() => onCancel(broadcast.id)}
               className="px-3 py-2 rounded-xl bg-white/5 border border-white/10"
             >
@@ -94,10 +107,11 @@ export const BroadcastCard: React.FC<BroadcastCardProps> = ({
           ) : null}
 
           <TouchableOpacity
+            activeOpacity={0.75}
             onPress={() => onToggleAcknowledge(broadcast.id)}
             className={`px-4 py-2 rounded-xl border flex-row items-center gap-1.5 ${
               broadcast.user_has_acknowledged
-                ? 'bg-emerald-500 border-emerald-400'
+                ? 'bg-emerald-500 border-emerald-400 shadow-md shadow-emerald-500/20'
                 : 'bg-[#1A1D27] border-white/15'
             }`}
           >

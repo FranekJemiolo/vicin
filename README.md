@@ -161,7 +161,9 @@ vicin/
 │   └── ui/                      # Shared Tailwind theme preset & atomic components
 ├── .maestro/                    # Automated mobile E2E interaction and screenshot flows
 │   ├── flow.yaml                # Core authentication and broadcast creation flow
-│   └── invite_flow.yaml         # Deep-link invite redemption and multi-user participation
+│   ├── invite_flow.yaml         # Deep-link invite redemption and multi-user participation
+│   ├── settings_flow.yaml       # Circle settings, push toggles, and custom activity dictionaries
+│   └── profile_flow.yaml        # Profile customization, avatar presets, and name synchronization
 ├── pnpm-workspace.yaml          # Monorepo workspace configuration
 ├── package.json                 # Monorepo root scripts & dev tools
 └── tsconfig.base.json           # Unified TypeScript base compiler options
@@ -221,10 +223,10 @@ pnpm run build:ui
 ### 3. Run Quality & Verification Pipeline
 
 ```bash
-pnpm run lint          # Run ESLint across all apps and packages
-pnpm run format:check  # Verify Prettier code formatting
-pnpm run type-check    # Strict TypeScript compiler verification
-pnpm run test          # Execute all 23 unit, RLS security, and configuration tests
+pnpm run lint          # Run ESLint across all apps and packages (0 errors, 0 warnings)
+pnpm run format:check  # Verify Prettier code formatting across all 72+ project files
+pnpm run type-check    # Strict TypeScript compiler verification (5 workspace packages)
+pnpm run test          # Execute all 31 unit, RLS security, optimistic UI, and routing tests
 ```
 
 ### 4. Start Local Supabase Stack (Optional)

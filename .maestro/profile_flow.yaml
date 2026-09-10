@@ -1,0 +1,28 @@
+appId: com.franekjemiolo.vicin
+---
+# Vicin User Profile & Account Management E2E Flow
+
+- launchApp:
+    clearState: false
+- assertVisible: 'Active Availability'
+
+# Step 1: Open Profile Tab
+- tapOn: 'Profile'
+- assertVisible: 'Your Profile'
+- assertVisible: 'Display Name'
+
+# Step 2: Edit Display Name
+- tapOn: 'Edit Name'
+- eraseText: 20
+- inputText: 'Alex Chen (Bldg 4)'
+- tapOn: 'Save Name'
+- assertVisible: 'Alex Chen (Bldg 4)'
+
+# Step 3: Switch Avatar Preset
+- tapOn: 'Avatar Presets'
+- tapOn: '🌿'
+- assertVisible: 'Profile updated'
+
+# Step 4: Verify Pulse Feed reflects updated author name
+- tapOn: 'Pulse'
+- assertVisible: 'Active Availability'

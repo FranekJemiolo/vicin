@@ -11,18 +11,28 @@ test('Maestro E2E Flows: Validates flow definition and captured screenshot asset
   const rootDir = path.resolve(__dirname, '../../../../');
   const baseFlowPath = path.join(rootDir, '.maestro/flow.yaml');
   const inviteFlowPath = path.join(rootDir, '.maestro/invite_flow.yaml');
+  const settingsFlowPath = path.join(rootDir, '.maestro/settings_flow.yaml');
+  const profileFlowPath = path.join(rootDir, '.maestro/profile_flow.yaml');
   const assetsDir = path.join(rootDir, 'apps/web/public/assets');
 
   assert(fs.existsSync(baseFlowPath), '.maestro/flow.yaml must exist');
   assert(fs.existsSync(inviteFlowPath), '.maestro/invite_flow.yaml must exist');
+  assert(fs.existsSync(settingsFlowPath), '.maestro/settings_flow.yaml must exist');
+  assert(fs.existsSync(profileFlowPath), '.maestro/profile_flow.yaml must exist');
 
   const baseFlow = fs.readFileSync(baseFlowPath, 'utf8');
   const inviteFlow = fs.readFileSync(inviteFlowPath, 'utf8');
+  const settingsFlow = fs.readFileSync(settingsFlowPath, 'utf8');
+  const profileFlow = fs.readFileSync(profileFlowPath, 'utf8');
 
   assert(baseFlow.includes('appId: com.franekjemiolo.vicin'));
   assert(inviteFlow.includes('appId: com.franekjemiolo.vicin'));
+  assert(settingsFlow.includes('appId: com.franekjemiolo.vicin'));
+  assert(profileFlow.includes('appId: com.franekjemiolo.vicin'));
   assert(inviteFlow.includes('vicin://invite/'));
   assert(inviteFlow.includes("I'm in"));
+  assert(settingsFlow.includes('Ping Pong'));
+  assert(profileFlow.includes('Display Name'));
 
   // Check assets exist
   assert(fs.existsSync(assetsDir), 'apps/web/public/assets directory must exist');
